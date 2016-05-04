@@ -11,13 +11,13 @@ defmodule TvApi.ChannelControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, channel_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert json_response(conn, 200)["channels"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     channel = Repo.insert! %Channel{}
     conn = get conn, channel_path(conn, :show, channel)
-    assert json_response(conn, 200)["data"] == %{"id" => channel.id,
+    assert json_response(conn, 200)["channel"] == %{"id" => channel.id,
       "name" => channel.name,
       "active" => channel.active}
   end
@@ -30,7 +30,7 @@ defmodule TvApi.ChannelControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, channel_path(conn, :create), channel: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
+    assert json_response(conn, 201)["channel"]["id"]
     assert Repo.get_by(Channel, @valid_attrs)
   end
 
@@ -42,7 +42,7 @@ defmodule TvApi.ChannelControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     channel = Repo.insert! %Channel{}
     conn = put conn, channel_path(conn, :update, channel), channel: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
+    assert json_response(conn, 200)["channel"]["id"]
     assert Repo.get_by(Channel, @valid_attrs)
   end
 

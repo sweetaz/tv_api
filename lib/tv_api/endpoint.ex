@@ -35,5 +35,7 @@ defmodule TvApi.Endpoint do
     key: "_tv_api_key",
     signing_salt: "xPOGyZiC"
 
+  plug CORSPlug, [origin: "http://localhost:9000"]
+
   plug TvApi.Router
 end
